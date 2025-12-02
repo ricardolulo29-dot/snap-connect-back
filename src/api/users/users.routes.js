@@ -5,7 +5,7 @@ import { UsersRepository } from '../../repositories/users.repository.js'
 import { PostsRepository } from '../../repositories/posts.repository.js'
 import { authMiddleware as auth } from '../../middlewares/auth.middleware.js'
 import { validationMiddleware } from '../../middlewares/validation.middleware.js'
-import { getUserByIdSchema } from './validators/index.js'
+import { getUserByIdSchema, updateUserProfileSchema } from './validators/index.js'
 
 const router = Router()
 
@@ -16,8 +16,10 @@ const usersService = new UsersService(usersRepository, postsRepository)
 const userController = new UsersController(usersService)
 
 const validationById = validationMiddleware(getUserByIdSchema)
+const validationUpdateProfile = validationMiddleware(updateUserProfileSchema)
 
 router.get('/:id/profile', auth, validationById, userController.getUserProfile)
+router.put('/:id/profile', auth, validationUpdateProfile, userController.updateUserProfile)
 router.get('/:id/followers', auth, validationById, userController.getUserFollowers)
 router.get('/:id/following', auth, validationById, userController.getUserFollowing)
 router.post('/:id/follow', auth, validationById, userController.followUser)

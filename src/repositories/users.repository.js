@@ -71,4 +71,55 @@ export class UsersRepository {
     const query = `UPDATE users SET image = $1 WHERE id = $2`
     await pool.query(query, [image, userId])
   }
+
+  async updateUserProfile(userId, updates) {
+    const fields = []
+    const values = []
+    let paramCount = 1
+
+    if (updates.username !== undefined) {
+      fields.push(`username = $${paramCount}`)
+      values.push(updates.username)
+      paramCount++
+    }
+    if (updates.firstName !== undefined) {
+      fields.push(`first_name = $${paramCount}`)
+      values.push(updates.firstName)
+      paramCount++
+    }
+    if (updates.lastName !== undefined) {
+      fields.push(`last_name = $${paramCount}`)
+      values.push(updates.lastName)
+      paramCount++
+    }
+    if (updates.email !== undefined) {
+      fields.push(`email = $${paramCount}`)
+      values.push(updates.email)
+      paramCount++
+    }
+
+    if (fields.length === 0) return null
+
+    values.push(userId)
+    const query = `
+      UPDATE users 
+      SET ${fields.join(', ')} 
+      WHERE id = $${paramCount}
+      RETURNING id, username, email, first_name, last_name, image
+    `
+    const { rows } = await pool.query(query, values)
+    return rows.length ? User.fromDatabase(rows[0]) : null
+  }
+
+  async checkUsernameExists(username) {
+    const query = `SELECT id FROM users WHERE username = $1`
+    const { rows } = await pool.query(query, [username])
+    return rows.length > 0
+  }
+
+  async checkEmailExists(email) {
+    const query = `SELECT id FROM users WHERE email = $1`
+    const { rows } = await pool.query(query, [email])
+    return rows.length > 0
+  }
 }

@@ -64,4 +64,17 @@ export class UsersController {
 
     return res.json(image)
   })
+
+  updateUserProfile = asyncHandler(async (req, res) => {
+    const { id } = req.params
+    const requestUserId = req.user.id
+    const updates = req.body
+
+    const updatedUser = await this.usersService.updateUserProfile(
+      parseInt(id),
+      requestUserId,
+      updates
+    )
+    return res.json(updatedUser)
+  })
 }

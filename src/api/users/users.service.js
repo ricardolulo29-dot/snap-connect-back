@@ -1,4 +1,4 @@
-import { NotFoundError } from '../../errors/index.js'
+import { NotFoundError, ConflictError, ForbiddenError } from '../../errors/index.js'
 
 export class UsersService {
   constructor(usersRepository, postsRepository) {
@@ -64,5 +64,24 @@ export class UsersService {
     if (!user) throw new NotFoundError('User')
 
     return user.image
+  }
+
+  async updateUserProfile(userId, requestUserId, updates) {
+    const user = await this.usersRepository.selectUserById(userId)
+    if (!user) throw new NotFoundError('User')
+
+    if (userId !== requestUserId) throw new ForbiddenError('You can only edit your own profile')
+
+    if (updates.username && updates.username !== user.username) {
+      const usernameExists = await this.usersRepository.checkUsernameExists(updates.username)
+      if (usernameExists) throw new ConflictError('Username already exists')
+    }
+
+    if (updates.email && updates.email !== user.email) {
+      const emailExists = await this.usersRepository.checkEmailExists(updates.email)
+      if (emailExists) throw new ConflictError('Email already exists')
+    }
+
+    return this.usersRepository.updateUserProfile(userId, updates)
   }
 }
