@@ -8,7 +8,7 @@ export class Post {
     username,
     firstName,
     lastName,
-    imageProfile,
+    profileImage,
     createdAt,
     likesCount,
     isLikedByUser,
@@ -23,7 +23,7 @@ export class Post {
       username,
       firstName,
       lastName,
-      imageProfile,
+      profileImage,
     }
     this.createdAt = createdAt
     this.likesCount = likesCount || 0
@@ -71,7 +71,7 @@ export class Post {
       username: dbPost.username,
       firstName: dbPost.first_name,
       lastName: dbPost.last_name,
-      imageProfile: dbPost.image_profile || dbPost.profile_image || dbPost.profileImage,
+      profileImage: dbPost.image_profile || dbPost.profile_image || dbPost.profileImage,
       createdAt: dbPost.created_at,
       likesCount: parseInt(dbPost.likes_count || 0),
       isLikedByUser: dbPost.is_liked_by_user || false,

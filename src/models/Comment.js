@@ -7,7 +7,7 @@ export class Comment {
     username,
     firstName,
     lastName,
-    imageProfile,
+    profileImage,
     createdAt,
   }) {
     this.id = id
@@ -18,7 +18,7 @@ export class Comment {
       username,
       firstName,
       lastName,
-      imageProfile,
+      profileImage,
     }
     this.createdAt = createdAt
   }
@@ -46,7 +46,7 @@ export class Comment {
       username: dbComment.username,
       firstName: dbComment.first_name,
       lastName: dbComment.last_name,
-      imageProfile: dbComment.image_profile,
+      profileImage: dbComment.image_profile,
       createdAt: dbComment.created_at,
     })
   }
