@@ -55,4 +55,12 @@ export class ChatsService {
 
     return { message: 'Messages marked as read' }
   }
+
+  deleteChat = async (chatId, userId) => {
+    const chat = await this.chatsRepository.getChatById(chatId)
+    if (!chat) throw new NotFoundError('Chat')
+    if (!chat.hasParticipant(userId)) throw new ForbiddenError('You cannot delete this chat')
+
+    await this.chatsRepository.deleteChatById(chatId)
+  }
 }

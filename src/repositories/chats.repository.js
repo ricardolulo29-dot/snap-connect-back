@@ -75,4 +75,9 @@ export class ChatsRepository {
   `
     await pool.query(query, [chatId, userId])
   }
+
+  async deleteChatById(chatId) {
+    const query = `DELETE FROM chats WHERE id = $1`
+    await pool.query(query, [chatId])
+  }
 }

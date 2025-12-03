@@ -23,5 +23,6 @@ router.post('/', auth, createChatValidation, chatsController.createChat)
 router.get('/:chatId/messages', auth, validationById, chatsController.getChatMessages)
 router.post('/:chatId/messages', auth, newMessageValidation, chatsController.sendMessage)
 router.patch('/:chatId/read', auth, validationById, chatsController.markMessagesAsRead)
+router.delete('/:chatId', auth, validationById, chatsController.deleteChat)
 
 export default router

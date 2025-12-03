@@ -40,4 +40,12 @@ export class ChatsController {
     await this.chatsService.markMessagesAsRead(chatId, userId)
     return res.json({ message: 'Messages marked as read' })
   })
+
+  deleteChat = asyncHandler(async (req, res) => {
+    const { chatId } = req.params
+    const userId = req.user.id
+
+    await this.chatsService.deleteChat(chatId, userId)
+    return res.json({ message: 'Chat deleted successfully' })
+  })
 }
