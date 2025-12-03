@@ -23,14 +23,17 @@ export class PostsRepository {
       users.last_name, 
       users.image as image_profile,
       posts.created_at,
-      COUNT(likes.user_id) AS likes_count,
-      BOOL_OR(likes.user_id = $1) AS is_liked_by_user
+      COUNT(DISTINCT likes.user_id) AS likes_count,
+      BOOL_OR(likes.user_id = $1) AS is_liked_by_user,
+      COUNT(DISTINCT comments.id) AS comments_count
     FROM posts 
     JOIN users ON posts.user_id = users.id
     JOIN user_follows_user ON user_follows_user.followed_id = posts.user_id
     LEFT JOIN likes ON posts.id = likes.post_id 
+    LEFT JOIN comments ON posts.id = comments.post_id
     WHERE user_follows_user.follower_id = $1
     GROUP BY posts.id, users.username, users.first_name, users.last_name, users.image
+    ORDER BY posts.created_at DESC
   `
     const { rows } = await pool.query(query, [userId])
     return rows.map(Post.fromDatabase)
@@ -50,12 +53,15 @@ export class PostsRepository {
       users.image as image_profile,
       posts.created_at, 
       COUNT(likes.user_id) AS likes_count,
-      BOOL_OR(likes.user_id = $1) AS is_liked_by_user
+      BOOL_OR(likes.user_id = $1) AS is_liked_by_user,
+      COUNT(DISTINCT comments.id) AS comments_count
     FROM posts 
     JOIN users ON posts.user_id = users.id
     LEFT JOIN likes ON posts.id = likes.post_id 
+    LEFT JOIN comments ON posts.id = comments.post_id
     WHERE posts.user_id = $1
     GROUP BY posts.id, users.username, users.first_name, users.last_name, users.image
+    ORDER BY posts.created_at DESC
   `
     const { rows } = await pool.query(query, [userId])
     return rows.map(Post.fromDatabase)
@@ -75,12 +81,15 @@ export class PostsRepository {
       users.image as image_profile,
       posts.created_at, 
       COUNT(likes.user_id) AS likes_count,
-      TRUE AS is_liked_by_user
+      BOOL_OR(likes.user_id = $1) AS is_liked_by_user,
+      COUNT(DISTINCT comments.id) AS comments_count
     FROM posts 
     JOIN users ON posts.user_id = users.id
     JOIN likes on posts.id = likes.post_id 
+    LEFT JOIN comments ON posts.id = comments.post_id
     WHERE likes.user_id = $1
     GROUP BY posts.id, users.username, users.first_name, users.last_name, users.image
+    ORDER BY posts.created_at DESC
   `
     const { rows } = await pool.query(query, [userId])
     return rows.map(Post.fromDatabase)

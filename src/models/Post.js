@@ -11,6 +11,7 @@ export class Post {
     profileImage,
     createdAt,
     likesCount,
+    commentsCount,
     isLikedByUser,
   }) {
     this.id = id
@@ -27,6 +28,7 @@ export class Post {
     }
     this.createdAt = createdAt
     this.likesCount = likesCount || 0
+    this.commentsCount = commentsCount || 0
     this.isLikedByUser = isLikedByUser || false
   }
 
@@ -39,6 +41,7 @@ export class Post {
       author: this.author,
       createdAt: this.createdAt,
       likesCount: this.likesCount,
+      commentsCount: this.commentsCount,
       isLikedByUser: this.isLikedByUser,
     }
   }
@@ -74,6 +77,7 @@ export class Post {
       profileImage: dbPost.image_profile || dbPost.profile_image || dbPost.profileImage,
       createdAt: dbPost.created_at,
       likesCount: parseInt(dbPost.likes_count || 0),
+      commentsCount: parseInt(dbPost.comments_count || 0),
       isLikedByUser: dbPost.is_liked_by_user || false,
     })
   }
