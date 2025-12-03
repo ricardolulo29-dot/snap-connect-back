@@ -6,7 +6,13 @@ export class PostsController {
   }
 
   getAllPosts = asyncHandler(async (req, res) => {
-    const response = await this.postsService.getPosts(req.user.id)
+    const tags = req.query.tags
+      ? Array.isArray(req.query.tags)
+        ? req.query.tags
+        : [req.query.tags]
+      : []
+
+    const response = await this.postsService.getPosts(req.user.id, tags)
     return res.json(response)
   })
 

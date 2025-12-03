@@ -13,6 +13,7 @@ export class Post {
     likesCount,
     commentsCount,
     isLikedByUser,
+    tags,
   }) {
     this.id = id
     this.title = title
@@ -30,6 +31,7 @@ export class Post {
     this.likesCount = likesCount || 0
     this.commentsCount = commentsCount || 0
     this.isLikedByUser = isLikedByUser || false
+    this.tags = tags || []
   }
 
   toJSON() {
@@ -43,6 +45,7 @@ export class Post {
       likesCount: this.likesCount,
       commentsCount: this.commentsCount,
       isLikedByUser: this.isLikedByUser,
+      tags: this.tags,
     }
   }
 
@@ -79,6 +82,7 @@ export class Post {
       likesCount: parseInt(dbPost.likes_count || 0),
       commentsCount: parseInt(dbPost.comments_count || 0),
       isLikedByUser: dbPost.is_liked_by_user || false,
+      tags: dbPost.tags ? (Array.isArray(dbPost.tags) ? dbPost.tags : [dbPost.tags]) : [],
     })
   }
 }

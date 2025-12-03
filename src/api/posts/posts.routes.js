@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { PostsRepository } from '../../repositories/posts.repository.js'
 import { LikesRepository } from '../../repositories/likes.repository.js'
 import { CommentsRepository } from '../../repositories/comments.repository.js'
+import { TagsRepository } from '../../repositories/tags.repository.js'
 import { PostsService } from './posts.service.js'
 import { PostsController } from './posts.controller.js'
 import { authMiddleware as auth } from '../../middlewares/auth.middleware.js'
@@ -18,7 +19,13 @@ const router = Router()
 const postsRepository = new PostsRepository()
 const likesRepository = new LikesRepository()
 const commentsRepository = new CommentsRepository()
-const postsService = new PostsService(postsRepository, likesRepository, commentsRepository)
+const tagsRepository = new TagsRepository()
+const postsService = new PostsService(
+  postsRepository,
+  likesRepository,
+  commentsRepository,
+  tagsRepository
+)
 const postsController = new PostsController(postsService)
 
 const validationByIPostd = validationMiddleware(getPostByIdSchema)

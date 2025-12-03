@@ -53,7 +53,6 @@ export default [
       'import/no-duplicates': 'error',
 
       // === Código limpio ===
-      'no-nested-ternary': 'warn',
       'no-unneeded-ternary': 'error',
       'prefer-template': 'warn',
       'no-useless-concat': 'error',
