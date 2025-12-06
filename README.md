@@ -2,23 +2,6 @@
 
 API REST para SnapConnect, una red social de fotografía donde los usuarios pueden compartir imágenes, seguir a otros usuarios, dar likes, comentar y chatear.
 
-## 🚀 Características
-
-- ✅ Autenticación y autorización con JWT
-- 📸 Publicación de posts con imágenes (base64)
-- 🏷️ Sistema de tags para categorizar posts
-- 🔍 Filtrado de posts por tags
-- 👥 Sistema de seguidores/seguidos
-- ❤️ Likes en posts
-- 💬 Comentarios en posts
-- 💌 Sistema de mensajería privada (chats)
-- 📧 Mensajes no leídos con contador
-- 🔍 Búsqueda de usuarios
-- 👤 Perfiles de usuario con estadísticas
-- ✏️ Edición de perfil de usuario
-- 🖼️ Actualización de imagen de perfil
-- 🔐 Recuperación de contraseña
-
 ## 🛠️ Tecnologías
 
 - **Node.js** + **Express** - Framework backend
@@ -199,52 +182,6 @@ npm run lint:fix
 - `GET /chats/:chatId/messages` - Obtener mensajes de un chat
 - `POST /chats/:chatId/messages` - Enviar mensaje
 - `PATCH /chats/:chatId/read` - Marcar mensajes como leídos
-
-## 📁 Estructura del Proyecto
-
-```
-SnapConnect-back/
-├── database/
-│   ├── migrations/        # Migraciones SQL
-│   ├── seeds/            # Datos de prueba
-│   ├── pool.js           # Configuración PostgreSQL
-│   └── run-migrations.js
-├── src/
-│   ├── api/
-│   │   ├── auth/         # Autenticación (Service, Controller, Routes)
-│   │   ├── users/        # Usuarios (Service, Controller, Routes)
-│   │   ├── posts/        # Posts (Service, Controller, Routes)
-│   │   └── chats/        # Mensajería (Service, Controller, Routes)
-│   ├── config/           # Configuración y DI container
-│   │   └── dependencies.js
-│   ├── errors/           # Errores personalizados
-│   │   └── AppError.js
-│   ├── middlewares/      # Middlewares globales
-│   │   ├── auth.middleware.js
-│   │   ├── validation.middleware.js
-│   │   └── error.middleware.js
-│   ├── models/           # Entidades de dominio (OOP)
-│   │   ├── User.js
-│   │   ├── Post.js
-│   │   ├── Comment.js
-│   │   ├── Chat.js
-│   │   └── Message.js
-│   ├── repositories/     # Acceso a datos (OOP)
-│   │   ├── users.repository.js
-│   │   ├── posts.repository.js
-│   │   ├── comments.repository.js
-│   │   ├── likes.repository.js
-│   │   └── chats.repository.js
-│   ├── mappers/          # Transformación snake_case ↔ camelCase
-│   ├── utils/            # Utilidades (asyncHandler)
-│   ├── app.js            # Configuración Express
-│   └── index.js          # Punto de entrada
-├── docs/                 # Documentación
-│   └── class-diagram.md  # Diagrama de clases UML
-├── .env                  # Variables de entorno
-├── eslint.config.js      # Configuración ESLint
-└── package.json
-```
 
 ## 🔒 Autenticación
 
