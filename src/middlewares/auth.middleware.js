@@ -7,10 +7,10 @@ const usersRepository = new UsersRepository()
 export const authMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.headers['authorization']
-    if (!authHeader) throw new UnauthorizedError('No token provided')
+    if (!authHeader) throw new UnauthorizedError('Token not provided')
 
     const token = authHeader.split(' ')[1]
-    if (!token) throw new UnauthorizedError('No token provided')
+    if (!token) throw new UnauthorizedError('Token not provided')
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
     const user = await usersRepository.selectUserByEmail(decoded.email)

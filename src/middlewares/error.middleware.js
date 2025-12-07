@@ -2,11 +2,10 @@ import { AppError } from '../errors/index.js'
 
 export const errorHandler = (err, _req, res, _next) => {
   // Si es un error de nuestra aplicación (AppError)
-  if (err instanceof AppError) {
+  if (err instanceof AppError)
     return res.status(err.statusCode).json({
       message: err.message,
     })
-  }
 
   // Error genérico o no controlado
   const statusCode = err.statusCode || 500
