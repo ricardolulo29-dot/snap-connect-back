@@ -98,10 +98,6 @@ export class PostsRepository {
 
     // Obtener tags para todos los posts
     const postIds = rows.map(row => row.id)
-    console.log(
-      'Post IDs obtenidos:',
-      rows.map(post => ({ id: post.id, likesCount: post.likes_count }))
-    ) // Agregado para depuración
     const tagsByPost = await this.getTagsForPosts(postIds)
 
     // Agregar tags a cada post
