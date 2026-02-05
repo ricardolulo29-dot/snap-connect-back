@@ -83,7 +83,7 @@ export class PostsRepository {
       users.last_name, 
       users.image as image_profile,
       posts.created_at, 
-      COUNT(likes.user_id) AS likes_count,
+      COUNT(DISTINCT likes.user_id) AS likes_count,
       BOOL_OR(likes.user_id = $1) AS is_liked_by_user,
       COUNT(DISTINCT comments.id) AS comments_count
     FROM posts 
@@ -98,6 +98,10 @@ export class PostsRepository {
 
     // Obtener tags para todos los posts
     const postIds = rows.map(row => row.id)
+    console.log(
+      'Post IDs obtenidos:',
+      rows.map(post => ({ id: post.id, likesCount: post.likes_count }))
+    ) // Agregado para depuración
     const tagsByPost = await this.getTagsForPosts(postIds)
 
     // Agregar tags a cada post
@@ -117,7 +121,7 @@ export class PostsRepository {
       users.last_name,      
       users.image as image_profile,
       posts.created_at, 
-      COUNT(likes.user_id) AS likes_count,
+      COUNT(DISTINCT likes.user_id) AS likes_count,
       BOOL_OR(likes.user_id = $1) AS is_liked_by_user,
       COUNT(DISTINCT comments.id) AS comments_count
     FROM posts 
