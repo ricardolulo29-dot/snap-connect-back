@@ -72,7 +72,15 @@ export class PostsService {
     if (!post) throw new NotFoundError('Post')
     if (!post.canBeEditedBy(userId)) throw new ForbiddenError('You cannot edit this post')
 
-    return this.postsRepository.editPostContent(postId, newContent)
+    await this.postsRepository.editPostContent(postId, newContent)
+
+    // Extraer y actualizar tags
+    const hashtags = this.extractHashtags(newContent)
+    // Eliminar tags antiguos y agregar los nuevos
+    await this.tagsRepository.removeTagsFromPost(postId)
+    if (hashtags.length > 0) await this.tagsRepository.addTagsToPost(postId, hashtags)
+
+    return { message: 'Post updated successfully' }
   }
 
   getPostComments = async postId => {

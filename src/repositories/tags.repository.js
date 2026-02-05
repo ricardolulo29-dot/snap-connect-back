@@ -40,6 +40,12 @@ export class TagsRepository {
     }
   }
 
+  // Eliminar todos los tags de un post
+  async removeTagsFromPost(postId) {
+    const query = `DELETE FROM post_tags WHERE post_id = $1`
+    await pool.query(query, [postId])
+  }
+
   // Obtener tags de un post
   async getPostTags(postId) {
     const query = `
