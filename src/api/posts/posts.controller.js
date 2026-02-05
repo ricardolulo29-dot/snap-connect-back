@@ -42,7 +42,7 @@ export class PostsController {
 
   editPostContent = asyncHandler(async (req, res) => {
     const { postId } = req.params
-    const { newContent } = req.body
+    const { content: newContent } = req.body
     const response = await this.postsService.editPostContent(postId, newContent, req.user.id)
     return res.json(response)
   })
